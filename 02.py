@@ -105,7 +105,7 @@ def way4(x, y, z):
 
         j = i - 1
         while j >= 0 and key < arr[j]:
-            arr[j + 1] = arr[j]  # 将元素往由移动，已给插入key留出空间。
+            arr[j + 1] = arr[j]  # 将元素往右移动，给插入key留出空间。
             j -= 1
         arr[j + 1] = key  # 在留出空间的地方插入key
     print("way4: ", arr)
