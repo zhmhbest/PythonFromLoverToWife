@@ -28,6 +28,7 @@ if __name__ == '__main__':
         # 第 line 行有 line 列
         for col in range(1, line+1):
             print("%d × %d = %d\t" % (col, line, line*col), end='')
+            # \t是制表符，可以做到对齐的效果。
         # end for (col)
         print()
     # end for (line)
