@@ -11,6 +11,10 @@ if __name__ == '__main__':
             for k in range(1, 5):
                 if (i != k) and (i != j) and (j != k):
                     print(i * 100 + j * 10 + k)
+                # end if
+            # end for(k)
+        # end for(j)
+    # end for(i)
     # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
 
 
