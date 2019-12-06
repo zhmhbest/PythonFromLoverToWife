@@ -12,7 +12,8 @@ def is_prime_number(num):
     :return: True Or False
     """
     # ↓↓↓↓↓↓↓↓ 在此处编写自己的代码 ↓↓↓↓↓↓↓↓
-    loop_top = int(sqrt(num + 1))
+    loop_top = int(sqrt(num))
+    # print(num, loop_top, sqrt(num + 1), sqrt(num))
     for i in range(2, loop_top + 1):
         if 0 == num % i:
             return False
