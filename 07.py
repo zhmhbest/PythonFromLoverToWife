@@ -23,7 +23,6 @@ def is_narcissus(num):
     else:
         return False
     # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
-    pass
 
 
 if __name__ == '__main__':
