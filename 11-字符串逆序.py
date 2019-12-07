@@ -8,6 +8,13 @@
 
 
 def str_reverse_way1(input_str):
+    """
+    • [:]               提取从开头（默认位置0）到结尾（默认位置-1）的整个字符串。
+    • [start:]          从start 提取到结尾。
+    • [:end]            从开头提取到end - 1。
+    • [start:end]       从start 提取到end - 1。
+    • [start:end:step]  从start 提取到end - 1，每step 个字符提取一个。
+    """
     return input_str[::-1]
 
 
@@ -38,8 +45,18 @@ def str_reverse_way4(input_str):
 
 def str_reverse_way5(input_str):
     str_list = [i for i in input_str]
-    str_list[0] = 15
-    return
+    i = 0
+    j = len(str_list) - 1
+    while i < j:
+        str_list[i], str_list[j] = str_list[j], str_list[i]
+        i += 1
+        j -= 1
+    # end while
+    result = ''
+    for ch in str_list:
+        result += ch
+    # end for
+    return result
 
 
 if __name__ == '__main__':
