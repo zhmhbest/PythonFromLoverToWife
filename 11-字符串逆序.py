@@ -19,6 +19,13 @@ def str_reverse_way1(input_str):
 
 
 def str_reverse_way2(input_str):
+    """
+    字符串.join(列表)    以“字符串”将“列表”连接成字符串
+    eg:
+        l1 = [1, 2, 3]
+        '#@#'.join(l1)
+        # 结果: 1#@#2#@#3
+    """
     temp_list = []
     for i in input_str:
         temp_list.append(i)
