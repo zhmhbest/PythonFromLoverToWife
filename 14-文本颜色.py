@@ -1,16 +1,18 @@
 """
     文本颜色
+    打印彩色字体方法: \033[{显示方式};{字体色};{背景色}m{打印的内容}\033[0m
+    以下是对该方法的封装
 """
 
 
 class RichPrint:
     CONTROL = {
         'DEFAULT': 0,
-        'HEIGHT': 1,
+        'BOLD': 1,
         'UNDERLINE': 4,
-        'FLASH': 5,
-        'WHITE': 7,
-        'HIDE': 8,
+        'FLASH': 5,     # 无效
+        'SWAP': 7,
+        'HIDE': 8,      # 无效
     }
     COLORS = {
         'WHITE':    0, 'w': 0,
@@ -24,7 +26,7 @@ class RichPrint:
     }
 
     @staticmethod
-    def h(style):
+    def print_head(style):
         try:
             style[0] = str(RichPrint.CONTROL[style[0]])
         except KeyError:
@@ -47,25 +49,33 @@ class RichPrint:
                        'm']), end='')
 
     @staticmethod
-    def t():
+    def print_tail():
         print('\033[0m', end='')
 
     @staticmethod
     def p(content, foreground=None, background=None, control=None):
         """
-        彩色打印
-        :param content:
-        :param control:
-        :param foreground:
-        :param background:
-        :return:
+        彩色不换行打印
+        :param content: 内容
+        :param foreground: 前景色
+        :param background: 背景色
+        :param control: 其它效果
+        :return: None
         """
-        RichPrint.h([control, foreground, background])
+        RichPrint.print_head([control, foreground, background])
         print(content, end='')
-        RichPrint.t()
+        RichPrint.print_tail()
 
     @staticmethod
     def pl(content, foreground=None, background=None, control=None):
+        """
+        彩色换行打印
+        :param content: 内容
+        :param foreground: 前景色
+        :param background: 背景色
+        :param control: 其它效果
+        :return:
+        """
         RichPrint.p(content, foreground, background, control)
         print()
 
@@ -89,3 +99,10 @@ if __name__ == '__main__':
     RichPrint.pl('PURPLE', 'w', 'p')
     RichPrint.pl('CYAN', 'w', 'c')
     RichPrint.pl('SHALLOW', 'w', 's')
+
+    print("请注意！不要太", end='')
+    RichPrint.p('爱', 'r', control='BOLD')
+    RichPrint.p('爱', 'r', control='UNDERLINE')
+    RichPrint.p('爱', 'r', control='SWAP')
+    RichPrint.p('爱', 'r')
+    print("我哦！", end='')
