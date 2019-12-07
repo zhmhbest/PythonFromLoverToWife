@@ -38,7 +38,7 @@ def demo_add_to_dict():
 if __name__ == '__main__':
     demo_add_to_dict()  # 演示如何向字典中添加内容
     
-    parsed_string = {}  # 声明一个空字典等待向其中添加内容
+    parsed_result = {}  # 声明一个空字典等待向其中添加内容
     lines = wait_parse_string.split('\n')  # 以行分解字符串
     for line in lines:
         line = line.strip()  # 清除每行开头和结尾的空格
