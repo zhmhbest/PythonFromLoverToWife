@@ -3,7 +3,7 @@
 """
 
 
-def is_narcissus(num):
+def is_narcissus_way1(num):
     """
     是否是水仙花数
     :param num:
@@ -27,7 +27,9 @@ def is_narcissus(num):
 
 if __name__ == '__main__':
     for i in range(100, 1000):
-        if is_narcissus(i):
+        if is_narcissus_way1(i):
             print(i)
+        # end if
+    # end for
 
 
