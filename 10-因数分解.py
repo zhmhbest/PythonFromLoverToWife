@@ -11,7 +11,7 @@
 """
 
 
-def factorization_way1(num):
+def factorization(num):
     """
     因数分解
     :param num:
@@ -38,6 +38,6 @@ def factorization_way1(num):
 
 if __name__ == '__main__':
     for i in range(1, 200):
-        print(i, factorization_way1(i))
+        print(i, factorization(i))
     # end for(i)
 
