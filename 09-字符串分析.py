@@ -47,7 +47,7 @@ if __name__ == '__main__':
             continue
             # 当前行被注释或为空，进入下一轮循环
         # end if
-        kv = line.split('=')
+        kv = line.split('=')  # 以=号为分隔符，将字符串分解成列表。
         parsed_result[kv[0].strip()] = kv[1].strip()
         # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
     # end for(line)
