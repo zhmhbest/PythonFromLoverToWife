@@ -37,7 +37,7 @@ def factorization(num):
 
 
 if __name__ == '__main__':
-    for i in range(1, 200):
+    for i in range(1, 201):
         print(i, factorization(i))
     # end for(i)
 
