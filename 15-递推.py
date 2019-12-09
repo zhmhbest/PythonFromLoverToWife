@@ -15,12 +15,13 @@ def get_an(n, a0, fun):
     :param fun: 递推表达式
     :return: 结果
     """
-    result = a0
+    a_n = a0
     for i in range(1, n + 1):
-        result = fun(result)
+        a_n = fun(a_n)
     # end for
-    return result
+    return a_n
 
 
 if __name__ == '__main__':
-    print(get_an(123, 1, lambda n: n * 2 + 1 / n))
+    result = get_an(123, 1, lambda n: n * 2 + 1 / n)
+    print(result)
