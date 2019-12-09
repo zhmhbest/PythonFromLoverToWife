@@ -42,9 +42,13 @@ if __name__ == '__main__':
     lines = wait_parse_string.split('\n')  # 以行分解字符串
     for line in lines:
         line = line.strip()  # 清除每行开头和结尾的空格
-        print(line)
         # ↓↓↓↓↓↓↓↓ 在此处编写自己的代码 ↓↓↓↓↓↓↓↓
-        # 判断开头是不是;
-        # 如果不是就继续分解字符串
+        if ";" == line[0:1] or 0 == len(line):
+            continue
+            # 当前行被注释或为空，进入下一轮循环
+        # end if
+        kv = line.split('=')
+        parsed_result[kv[0].strip()] = kv[1].strip()
         # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
     # end for(line)
+    print(parsed_result)
