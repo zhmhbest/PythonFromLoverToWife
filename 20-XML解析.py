@@ -1,6 +1,6 @@
 """
     【XML解析】
-    方式1：SAX解析
+    方式1：SAX解析（因数内存容量限制，数据量过大时只能使用这种方式）
         通过在解析XML的过程中触发一个个的事件并调用用户定义的回调函数来处理XML文件。
     方式2：DOM解析
         将XML数据在内存中解析成一个树，通过对树的操作来操作XML。
@@ -8,6 +8,7 @@
         轻量级的DOM解析方式
 """
 import xml.sax
+import pandas as pd
 
 
 class PreXMLHandler(xml.sax.ContentHandler):
@@ -48,8 +49,8 @@ class MyXMLHandler(PreXMLHandler):
         if "gpx.wpt" == location or "gpx.trk.trkseg.trkpt" == location:
             self.current = {}
             # 添加属性
-            self.current['lat'] = self.attribute['lat']
-            self.current['lon'] = self.attribute['lon']
+            self.current['lat'] = float(self.attribute['lat'])
+            self.current['lon'] = float(self.attribute['lon'])
 
     def endElement(self, tag):
         location = '.'.join(self.location)
@@ -67,18 +68,22 @@ class MyXMLHandler(PreXMLHandler):
         # gpx.trk.trkseg.trkpt
         if None is not self.current:
             if "gpx.wpt.ele" == location or "gpx.trk.trkseg.trkpt.ele" == location:
-                self.current['ele'] = content
+                self.current['ele'] = float(content)
             elif "gpx.wpt.name" == location or "gpx.trk.trkseg.trkpt.name" == location:
                 self.current['name'] = content
             elif "gpx.wpt.time" == location or "gpx.trk.trkseg.trkpt.time" == location:
-                self.current['time'] = content
-        # end if
+                tmp = content.split('T')
+                self.current['text_date'] = tmp[0]
+                self.current['text_time'] = tmp[1].split('Z')[0]
+                tmp = (self.current['text_time']).split(':')
+                self.current['t'] = int(tmp[0]) * 3600 + int(tmp[1]) * 60 + int(tmp[2])
+                # end if
 
-    def print_result(self):
-        for line in self.result:
-            print(line)
+    def get_result(self):
+        return self.result
 
 
 if __name__ == '__main__':
-    handle = MyXMLHandler.get_handler("20-XML解析.xml", MyXMLHandler())
-    handle.print_result()
+    result = MyXMLHandler.get_handler("20-XML解析.xml", MyXMLHandler()).get_result()
+    # 将文件存为CSV文件
+    pd.DataFrame(result).to_csv("21-数据分析.csv", index=False, index_label=False)
