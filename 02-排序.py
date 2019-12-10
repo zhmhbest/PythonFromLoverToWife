@@ -13,7 +13,7 @@ def way1(x, y, z):
     缺点: 数据量大时无法使用！
     """
     result = []
-    if x < y and x < z:
+    if x <= y and x <= z:
         result.append(x)  # x是最小值
         if y < z:
             result.append(y)
@@ -21,7 +21,7 @@ def way1(x, y, z):
         else:
             result.append(z)
             result.append(y)
-    elif y < x and y < z:
+    elif y <= x and y <= z:
         result.append(y)  # y是最小值
         if x < z:
             result.append(x)
@@ -41,7 +41,7 @@ def way1(x, y, z):
     print("way1: ", result)
 
 
-def way2(x, y, z):
+def way2(arr):
     """
     【择排序之直接选择排序】
     核心思想：
@@ -49,7 +49,6 @@ def way2(x, y, z):
     缺点: 是时间复杂度最高的排序算法之一。
     """
     # 原数据重新定义为列表
-    arr = [x, y, z]
     for i in range(len(arr)):
 
         index = i  # 先假设当前值是最小值
@@ -65,10 +64,10 @@ def way2(x, y, z):
         # 每次i循环结束，都将一个最小值移动到i所在的位置
 
     # end for(i)
-    print("way2: ", arr)
+    return arr
 
 
-def way3(x, y, z):
+def way3(arr):
     """
     【交换排序之冒泡排序】
     核心思想：
@@ -77,7 +76,6 @@ def way3(x, y, z):
     缺点: 是时间复杂度最高的排序算法之一。
     """
     # 原数据重新定义为列表
-    arr = [x, y, z]
     for i in range(len(arr) - 1):
         for j in range(len(arr) - i - 1):
             if arr[j] > arr[j + 1]:
@@ -86,16 +84,15 @@ def way3(x, y, z):
             # 如果(左>右)就交换位置
         # end for(j)
     # end for(i)
-    print("way3: ", arr)
+    return arr
 
 
-def way4(x, y, z):
+def way4(arr):
     """
     【直接插入排序】
     核心思想：每次从无序序列中选择一个元素插入到有序序列中
     """
     # 原数据重新定义为列表
-    arr = [x, y, z]
     for i in range(1, len(arr)):
         key = arr[i]
 
@@ -107,16 +104,17 @@ def way4(x, y, z):
         while j >= 0 and key < arr[j]:
             arr[j + 1] = arr[j]  # 将元素往右移动，给插入key留出空间。
             j -= 1
+        # end while
         arr[j + 1] = key  # 在留出空间的地方插入key
-    print("way4: ", arr)
+    # end for
+    return arr
 
 
-def way5(x, y, z):
+def way5(arr):
     # 原数据重新定义为列表
-    arr = [x, y, z]
     # 利用Python自带的方法排序
     arr.sort()
-    print("way4: ", arr)
+    return arr
 
 
 if __name__ == '__main__':
@@ -126,10 +124,8 @@ if __name__ == '__main__':
     print(x_val, y_val, z_val)
     # ↓↓↓↓↓↓↓↓ 在此处编写自己的代码 ↓↓↓↓↓↓↓↓
     way1(x_val, y_val, z_val)
-    way2(x_val, y_val, z_val)
-    way3(x_val, y_val, z_val)
-    way4(x_val, y_val, z_val)
-    way5(x_val, y_val, z_val)
-    # 算法2~4仅需了解
-    # 需要熟练掌握算法1和算法5
+    print("way2: ", way2([x_val, y_val, z_val]))
+    print("way3: ", way3([x_val, y_val, z_val]))
+    print("way4: ", way4([x_val, y_val, z_val]))
+    print("way5: ", way5([x_val, y_val, z_val]))
     # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
