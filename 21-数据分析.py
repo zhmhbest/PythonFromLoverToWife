@@ -37,23 +37,32 @@ if __name__ == '__main__':
     # 计算dt并修改列名
     zero = data['t'][0]
     data.loc[:, 't'] -= zero
-    data.rename(columns={'t': 'dt'}, inplace=True)
+    data.rename(columns={'t': 'duration'}, inplace=True)
 
     # 获得列数
     # row_size = data.shape[0]
 
-    # 计算ds
-    dump = []
+    # 计算 ds, dt, velocity 并追加
+    dump1 = []
+    dump2 = []
+    dump3 = []
     pre_row = data.loc[0]
-    # r = get_distance_from_row(data.loc[0], data.loc[2])
     for index, row in data.iterrows():
         cur_row = row
-        dump.append(get_distance_from_row(pre_row, cur_row))
+        t1 = get_distance_from_row(pre_row, cur_row)
+        t2 = cur_row['duration'] - pre_row['duration']
+        dump1.append(t1)
+        dump2.append(t2)
+        if 0 == t2:
+            dump3.append('N/A')
+        else:
+            dump3.append(t1 / t2)
+        # end if
         pre_row = cur_row
     # end for
-
-    # 追加一列
-    data['ds'] = dump
+    data['ds'] = dump1
+    data['dt'] = dump2
+    data['velocity'] = dump3
 
     # 展示文件
     write_to_csv(data)
