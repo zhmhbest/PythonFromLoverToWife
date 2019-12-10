@@ -29,21 +29,21 @@ def test_error_index():
 # 使用 try except 来捕获错误
 def loop_body():
     try:
-        xxx = random.randint(0, 2)
+        xxx = random.randint(0, 2)  # 可能等于 0 or 1 or 2
         if 0 == xxx:
             test_error_index()
         elif 1 == xxx:
             test_error_my()
         else:
             # 没有抛出异常
-            print("[None       ]", end=' ')
+            print("[正常      ]", end=' ')
         # end if
     except IndexError as err:
-        print("[Error_Index]", end=' ')
-        print(err, end='\t')
+        print("[捕获_Index]", end=' ')
+        print(err, end=' | ')
     except MyError as err:
-        print("[Error_My   ]", end=' ')
-        print(err, end='\t')
+        print("[捕获_My   ]", end=' ')
+        print(err, end=' | ')
     finally:
         print("不论是否有异常发生这条语句总是会在最后执行")
     # end try
@@ -75,7 +75,7 @@ if __name__ == '__main__':
             这样就会报出一大串错误（因为系统方法一般很深）
             但实际错误原因是最上面一层，你使用出现了问题。
     """
-    for i in range(10):
+    for i in range(15):
         loop_body()
     # end for
     print("程序已运行到结尾")
