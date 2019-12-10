@@ -5,9 +5,9 @@ import random
 
 
 # 自定义异常
-# 需要继承Exception类
-# Exception类是所有异常的最远父类
-class MyError(Exception):
+# 需要继承Exception类，Exception类继承自BaseException
+# BaseException几乎是所有异常的最远父类
+class MyError(Exception):  # 按住Ctrl，左键点击此处的Exception，可以看到其定义
     def __init__(self, err):
         Exception.__init__(self, err)
         # err文本用于说明对当前异常的描述
@@ -38,7 +38,7 @@ def loop_body():
             # 没有抛出异常
             print("[正常      ]", end=' ')
         # end if
-    except IndexError as err:
+    except IndexError as err:  # 按住Ctrl，左键点击此处的IndexError，可以看到其定义
         print("[捕获_Index]", end=' ')
         print(err, end=' | ')
     except MyError as err:
