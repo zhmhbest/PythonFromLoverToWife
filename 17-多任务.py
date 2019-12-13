@@ -5,7 +5,11 @@
     （2）什么是进程(Process)
     （3）什么是线程(Thread)
     （4）什么是协程(Coroutine)
+    了解如何使用Python创建多线程应用
 """
+
+import threading
+import time
 
 """
     多任务即操作系统可以同时运行多个任务。
@@ -66,31 +70,39 @@
 
 """
 
-import _thread as thread
-import time
 
+class MyThread (threading.Thread):
+    def __init__(self, name):
+        threading.Thread.__init__(self)
+        self.is_run = True
+        self.name = name
 
-def my_thread_1(name):
-    for _i_ in range(20):
-        print('thread_1', name, _i_)
-        time.sleep(1)  # 暂停一秒
-    # end for
+    def stop(self):
+        self.is_run = False
 
-
-def my_thread_2(name):
-    for _i_ in range(20):
-        print('thread_2', name, _i_)
-        time.sleep(1)  # 暂停一秒
-    # end for
+    def run(self):
+        for _i_ in range(10):
+            if not self.is_run:
+                return
+            # end if
+            print(self.name, _i_)
+            time.sleep(1)
+        # end for
 
 
 if __name__ == '__main__':
-    thread.start_new_thread(my_thread_1, ('A',))
-    thread.start_new_thread(my_thread_1, ('B',))
-    thread.start_new_thread(my_thread_2, ('C',))
-    for i in range(10):
-        time.sleep(1)  # 暂停一秒
-        print('----------------', i)
-    # end for
-    # 特别说明: 当主
+    # 创建线程
+    thread1 = MyThread("Thread-1")
+    thread2 = MyThread("Thread-2")
 
+    # 开启线程
+    thread1.start()  # 循环10次
+    thread2.start()  # 循环10次
+
+    for i in range(3):  # 循环3次
+        print('Main', i)
+        time.sleep(1)
+    # end for
+
+    thread2.stop()  # 停止线程2
+    print("Exiting Main Thread")
