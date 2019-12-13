@@ -22,7 +22,7 @@ if __name__ == '__main__':
     try:
         Hello.say_from_heart("I am ?")
     except TypeError:
-        print("调用 Hello.say_2 时 发生错误！")
+        print("调用 Hello.say_from_heart 时 发生错误！")
     # end try
 
     hello = Hello("ZHMH")
