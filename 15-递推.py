@@ -16,7 +16,7 @@ def get_an(n, a0, fun):
     :return: 结果
     """
     a_n = a0
-    for i in range(1, n + 1):
+    for i in range(n):
         a_n = fun(a_n)
     # end for
     return a_n
