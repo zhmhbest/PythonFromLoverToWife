@@ -28,6 +28,7 @@ def test_error_index():
 
 # 使用 try except 来捕获错误
 def loop_body():
+    # 只有在try-except区间产生的异常才会被捕获
     try:
         xxx = random.randint(0, 2)  # 可能等于 0 or 1 or 2
         if 0 == xxx:
@@ -38,6 +39,7 @@ def loop_body():
             # 没有抛出异常
             print("[正常      ]", end=' ')
         # end if
+        print('end try body', end=' | ')
     except IndexError as err:  # 按住Ctrl，左键点击此处的IndexError，可以看到其定义
         print("[捕获_Index]", end=' ')
         print(err, end=' | ')
