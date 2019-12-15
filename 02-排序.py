@@ -1,54 +1,24 @@
 """
-    x, y, z为随机生成的三个正整数
-    请由小到大依次输出。
+    排序算法
 """
 import random
 
 
-def way1(x, y, z):
-    """
-    【逻辑套嵌】
-    核心思想：
-        >分情况判断
-    缺点: 数据量大时无法使用！
-    """
+def get_random_list(size):
     result = []
-    if x <= y and x <= z:
-        result.append(x)  # x是最小值
-        if y < z:
-            result.append(y)
-            result.append(z)
-        else:
-            result.append(z)
-            result.append(y)
-    elif y <= x and y <= z:
-        result.append(y)  # y是最小值
-        if x < z:
-            result.append(x)
-            result.append(z)
-        else:
-            result.append(z)
-            result.append(x)
-    else:
-        result.append(z)  # z一定是最小值
-        if x < y:
-            result.append(x)
-            result.append(y)
-        else:
-            result.append(y)
-            result.append(x)
-    # end if
-    print("way1: ", result)
+    for i in range(size):
+        result.append(random.randint(0, 100))
+    # end for
+    return result
 
 
-def way2(arr):
+def sort_select_directly(arr):
     """
     【择排序之直接选择排序】
     核心思想：
         >每次选择一个最小值，将其移动到无序序列的最左端
     缺点: 是时间复杂度最高的排序算法之一。
     """
-    # 原数据重新定义为列表
     for i in range(len(arr)):
 
         index = i  # 先假设当前值是最小值
@@ -67,7 +37,7 @@ def way2(arr):
     return arr
 
 
-def way3(arr):
+def sort_swap_bubble(arr):
     """
     【交换排序之冒泡排序】
     核心思想：
@@ -87,7 +57,7 @@ def way3(arr):
     return arr
 
 
-def way4(arr):
+def sort_insert_directly(arr):
     """
     【直接插入排序】
     核心思想：每次从无序序列中选择一个元素插入到有序序列中
@@ -110,7 +80,7 @@ def way4(arr):
     return arr
 
 
-def way5(arr):
+def sort_auto(arr):
     # 原数据重新定义为列表
     # 利用Python自带的方法排序
     arr.sort()
@@ -118,14 +88,11 @@ def way5(arr):
 
 
 if __name__ == '__main__':
-    x_val = random.randint(0, 9)
-    y_val = random.randint(0, 9)
-    z_val = random.randint(0, 9)
-    print(x_val, y_val, z_val)
+    l1 = get_random_list(20)
+    print(l1)
     # ↓↓↓↓↓↓↓↓ 在此处编写自己的代码 ↓↓↓↓↓↓↓↓
-    way1(x_val, y_val, z_val)
-    print("way2: ", way2([x_val, y_val, z_val]))
-    print("way3: ", way3([x_val, y_val, z_val]))
-    print("way4: ", way4([x_val, y_val, z_val]))
-    print("way5: ", way5([x_val, y_val, z_val]))
+    print("select: ", sort_select_directly(l1.copy()))
+    print("bubble: ", sort_swap_bubble(l1.copy()))
+    print("insert: ", sort_insert_directly(l1.copy()))
+    print("auto  : ", sort_auto(l1.copy()))
     # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
