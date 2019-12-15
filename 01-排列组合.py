@@ -18,21 +18,26 @@ def get_factorial(n):
     return ret
 
 
-def get_permutation_num(n, m):
+def get_permutation_num(n, m, result_type_is_list=False):
     """
     排列数
     A_(n)^(m) = n! / (n-m)!
     :param n:
     :param m:
+    :param result_type_is_list: 返回列表还是数字
     :return: [分子, 分母]
     """
-    return [
-        get_factorial(n),
-        get_factorial(n - m)
-    ]
+    if result_type_is_list:
+        return [
+            get_factorial(n),
+            get_factorial(n - m)
+        ]
+    else:
+        return get_factorial(n) / get_factorial(n - m)
+    # end if
 
 
-def get_combination_num(n, m):
+def get_combination_num(n, m, result_type_is_list=False):
     """
     组合数
     C_(n)^(m) = n! / [ m! · (n-m)! ]
@@ -40,10 +45,14 @@ def get_combination_num(n, m):
     :param m:
     :return:
     """
-    return [
-        get_factorial(n),
-        get_factorial(m) * get_factorial(n - m)
-    ]
+    if result_type_is_list:
+        return [
+            get_factorial(n),
+            get_factorial(m) * get_factorial(n - m)
+        ]
+    else:
+        return get_factorial(n) / (get_factorial(m) * get_factorial(n - m))
+    # end if
 
 
 if __name__ == '__main__':
