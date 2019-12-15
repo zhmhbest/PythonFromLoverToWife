@@ -80,6 +80,45 @@ def sort_insert_directly(arr):
     return arr
 
 
+def sort_quick(arr):
+    """
+    快速排序
+    :param arr:
+    :return:
+    """
+
+    def partition(arr, low, hig):
+        pivot = arr[hig]
+        i = (low - 1)
+        for j in range(low, hig):
+            # 当前元素小于或等于 pivot
+            if arr[j] <= pivot:
+                i += 1
+                arr[i], arr[j] = arr[j], arr[i]
+            # end if
+        # end for
+        arr[i + 1], arr[hig] = arr[hig], arr[i + 1]
+        return i + 1
+    # end def
+
+    def recursion(a, l, h):
+        """
+        递归修正
+        :param a: 待排序序列
+        :param l: 可达起始索引
+        :param h: 可达结束索引
+        """
+        if l < h:
+            # m: 本次partition确定的数据的位置
+            m = partition(a, l, h)
+            recursion(a, l, m - 1)
+            recursion(a, m + 1, h)
+        # end if
+    # end def
+    recursion(arr, 0, len(arr) - 1)
+    return arr
+
+
 def sort_auto(arr):
     # 原数据重新定义为列表
     # 利用Python自带的方法排序
@@ -94,5 +133,6 @@ if __name__ == '__main__':
     print("select: ", sort_select_directly(l1.copy()))
     print("bubble: ", sort_swap_bubble(l1.copy()))
     print("insert: ", sort_insert_directly(l1.copy()))
+    print("quick : ", sort_quick(l1.copy()))
     print("auto  : ", sort_auto(l1.copy()))
     # ↑↑↑↑↑↑↑↑ 在此处编写自己的代码 ↑↑↑↑↑↑↑↑
