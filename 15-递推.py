@@ -7,21 +7,21 @@
 """
 
 
-def get_an(n, a0, fun):
+def get_an(n, a_0, recursion):
     """
     获取递推公式第n项的值
     :param n: 第几项
-    :param a0: a(0)的值
-    :param fun: 递推表达式
+    :param a_0: a(0)的值
+    :param recursion: 递推表达式
     :return: 结果
     """
-    a_n = a0
+    a_n = a_0
     for i in range(n):
-        a_n = fun(a_n)
+        a_n = recursion(a_n)
     # end for
     return a_n
 
 
 if __name__ == '__main__':
-    result = get_an(123, 1, lambda n: n * 2 + 1 / n)
+    result = get_an(123, 1, lambda a: a * 2 + 1 / a)
     print(result)
