@@ -89,4 +89,4 @@ class MyXMLHandler(PreXMLHandler):
 if __name__ == '__main__':
     result = MyXMLHandler.get_handler("20-XML解析.xml", MyXMLHandler()).get_result()
     # 将文件存为CSV文件
-    pd.DataFrame(result).to_csv("21-数据分析2.csv", index=False, index_label=False)
+    pd.DataFrame(result).to_csv("21-数据分析.csv", index=False, index_label=False)
