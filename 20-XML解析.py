@@ -72,12 +72,15 @@ class MyXMLHandler(PreXMLHandler):
             elif "gpx.wpt.name" == location or "gpx.trk.trkseg.trkpt.name" == location:
                 self.current['name'] = content
             elif "gpx.wpt.time" == location or "gpx.trk.trkseg.trkpt.time" == location:
-                tmp = content.split('T')
-                self.current['text_date'] = tmp[0]
-                self.current['text_time'] = tmp[1].split('Z')[0]
-                tmp = (self.current['text_time']).split(':')
-                self.current['t'] = int(tmp[0]) * 3600 + int(tmp[1]) * 60 + int(tmp[2])
-                # end if
+                try:
+                    tmp = content.split('T')
+                    self.current['text_date'] = tmp[0]
+                    self.current['text_time'] = tmp[1].split('Z')[0]
+                    tmp = (self.current['text_time']).split(':')
+                    self.current['t'] = int(tmp[0]) * 3600 + int(tmp[1]) * 60 + int(tmp[2])
+                except IndexError as e:
+                    print(self.current, e, content)
+            # end if
 
     def get_result(self):
         return self.result
@@ -86,4 +89,4 @@ class MyXMLHandler(PreXMLHandler):
 if __name__ == '__main__':
     result = MyXMLHandler.get_handler("20-XML解析.xml", MyXMLHandler()).get_result()
     # 将文件存为CSV文件
-    pd.DataFrame(result).to_csv("21-数据分析.csv", index=False, index_label=False)
+    pd.DataFrame(result).to_csv("21-数据分析2.csv", index=False, index_label=False)
