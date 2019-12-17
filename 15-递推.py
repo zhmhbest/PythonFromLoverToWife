@@ -27,7 +27,6 @@ def get_an(n, a0, recursion, return_sn=False):
 
 
 if __name__ == '__main__':
-
     """
         已知a_(n+1) = a_(n) * 2 + 1/a_(n)
         a_(0) = 1
