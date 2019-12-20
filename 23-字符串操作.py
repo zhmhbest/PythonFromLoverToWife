@@ -74,3 +74,19 @@ if __name__ == '__main__':
     known_string1 = r"C:\Program Files (x86)\Internet Explorer\iexplore.exe"
     known_string2 = r"C:\Windows\System32\notepad.exe"
     known_string3 = r"C:\Users\zhmh\honey\gaoyu"
+
+    def split_file_path(full_file_path):
+        r_position = full_file_path.rfind('\\')
+        file_path = full_file_path[:r_position]
+        file_name = full_file_path[-(len(full_file_path)-r_position-1):]
+        d_position = file_name.rfind('.')
+        if d_position != -1:
+            ext_name = file_name[-(len(file_name)-d_position-1):]
+        else:
+            ext_name = ""
+        drive_name = full_file_path[:1]
+        return file_path, file_name, ext_name, drive_name
+    # end def
+    print(split_file_path(known_string1))
+    print(split_file_path(known_string2))
+    print(split_file_path(known_string3))
