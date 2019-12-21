@@ -47,8 +47,8 @@ if __name__ == '__main__':
         字符串分割
     """
     str6 = "123abc456qwe789abcqqq"
-    print("替换", str6.split('abc'))
-    print("替换", str6.split('abc', 1))
+    print("分割", str6.split('abc'))
+    print("分割", str6.split('abc', 1))
 
     """
         字符串切片
