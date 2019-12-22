@@ -75,22 +75,23 @@ class OperatorOverloading:
 
 if __name__ == '__main__':
     obj = OperatorOverloading()
-    print(len(obj))      # __len__(self)方法
-    print(str(obj))      # __str__(self)方法
-    #
-    print(obj + 1)
-    print(obj - 99)
-    #
-    obj.A = 'QWE'        # __setattr__(self, key, value)
-    # print(obj._dict1)
-    print(obj.A)         # __getattr__(self, item)
-    #
-    obj['x'] = 'Apple'   # __setitem__(self, key, value)
-    obj['y'] = 'Bubble'  # __setitem__(self, key, value)
-    obj['z'] = 'Candy'   # __setitem__(self, key, value)
-    # print(obj._dict2)
-    print(obj['y'])      # __getitem__(self, item):
-    #
+    print(len(obj), obj.__len__())
+    print(str(obj), obj.__str__())
+
+    print(obj + 1, obj.__add__(1))
+    print(obj - 9, obj.__sub__(9))
+
+    obj.A = 'QWE'
+    obj.__setattr__('B', 'ASD')
+    print(obj.A)
+    print(obj.__getattr__('B'))
+
+    obj['x'] = 'Apple'
+    obj.__setitem__('y', 'Bubble')
+
+    print(obj['x'])
+    print(obj.__getitem__('y'))
+
     print(iter(obj))
     for i in obj:
         print(i)
