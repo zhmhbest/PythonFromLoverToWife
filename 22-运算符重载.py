@@ -93,5 +93,8 @@ if __name__ == '__main__':
     print(obj.__getitem__('y'))
 
     print(iter(obj))
+    print(obj.__iter__())
     for i in obj:
+        print(i)
+    for i in obj.__iter__():
         print(i)
