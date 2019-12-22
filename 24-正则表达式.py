@@ -54,3 +54,11 @@ if __name__ == '__main__':
     print(reg_exp1.search("super-github!Git"))
     print(reg_exp1.sub("$$$", "super-github!Git"))
     print(reg_exp1.sub(lambda matched: '<' + str(matched.group(0)) + '>', "super-github!Git"))
+
+    """
+        作业1：判断用户输入的邮箱是否正确
+    """
+
+    """
+        作业2：判断用户输入的手机号码是否正确
+    """
