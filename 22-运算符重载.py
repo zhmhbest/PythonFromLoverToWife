@@ -4,10 +4,11 @@
 
 
 class OperatorOverloading:
-    _dict1 = dict()
-    _dict2 = dict()
-    _size = 999
-    _string = "使用str方法返回的字符串"
+    def __init__(self):
+        self._dict1 = dict()
+        self._dict2 = dict()
+        self._size = 999
+        self._string = "使用str方法返回的字符串"
 
     def __len__(self):
         """
