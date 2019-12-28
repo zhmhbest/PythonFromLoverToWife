@@ -3,17 +3,65 @@
 """
 
 
-def demo1():
-    def fun_decorate(fn):
-        print('A')
-        fn()
+def demo1(demo_name):
+    def wrapper(fun):
+        print(demo_name, "wrapper")
+        fun()
+    # end def
 
-    @fun_decorate
-    def fun_test():
-        print('B')
+    @wrapper
+    def test():
+        print(demo_name, "test")
+    # end def
 
-    fun_test
+    test  # 调用test方法，此处不能加()。
+# end def(demo)
+
+
+def demo2(demo_name):
+    def wrapper(func):
+        def callback(*args, **kwargs):
+            print(demo_name, "callback")
+            return func(*args, **kwargs)
+        return callback
+    # end def
+
+    @wrapper
+    def test(item):
+        print(demo_name, "test", item)
+    # end def
+
+    test("Hello")  # 调用test方法
+# end def(demo)
+
+
+def demo3(demo_name):
+    def decorate(tip):
+        def wrapper(func):
+            def callback(*args, **kwargs):
+                print(demo_name, tip)
+                return func(*args, **kwargs)
+            return callback
+        return wrapper
+    # end def(decorate)
+
+    @decorate("Something")
+    def test(item):
+        print(demo_name, "test", item)
+    # end def
+
+    test("Hello")  # 调用test方法
+# end def(demo)
 
 
 if __name__ == '__main__':
-    demo1()
+    demo1("demo1")
+    print()
+
+    # 被装饰函数传参
+    demo2("demo2")
+    print()
+
+    # 装饰器传参
+    demo3("demo3")
+    print()
