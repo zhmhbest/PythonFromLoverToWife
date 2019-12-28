@@ -33,16 +33,19 @@ if __name__ == '__main__':
 
     test_args(1, 2, 3, 4)
     print()
-    #
-    #
+
     test_kwargs(0)
     print()
 
     # 错误使用，第一个参数已指定名称，无法自定义
-    # test_kwargs(k0=1)  
+    # test_kwargs(k0=1)
 
     test_kwargs(0, k1=1)
     print()
 
     test_kwargs(1, 2, 3, 4, k1=5, k2=6)
     print()
+
+    # **将字典展开为参数
+    params = {'a': 11, 'b': 12, 'c': 13}
+    test_kwargs(0, **params)
