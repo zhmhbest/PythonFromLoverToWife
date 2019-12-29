@@ -129,7 +129,7 @@ def sort_auto(arr):
 
 if __name__ == '__main__':
     l1 = get_random_list(20)
-    print(l1)
+    print("      : ", l1)
     # ↓↓↓↓↓↓↓↓ 在此处编写自己的代码 ↓↓↓↓↓↓↓↓
     print("select: ", sort_select_directly(l1.copy()))
     print("bubble: ", sort_swap_bubble(l1.copy()))
