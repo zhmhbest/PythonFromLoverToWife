@@ -80,6 +80,3 @@ if __name__ == '__main__':
 
     demo4("demo4")
     print()
-
-
-
