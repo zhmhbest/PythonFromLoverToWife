@@ -54,6 +54,40 @@ def demo3(demo_name):
 # end def(demo)
 
 
+def demo4(demo_name):
+    class Decorate:
+        def __init__(self, func):
+            self.func = func
+
+        def __call__(self):
+            print(demo_name, "Class decorator")
+            self.func()
+
+    @Decorate
+    def test():
+        print(demo_name, "test")
+
+    test()
+
+
+def demo5(demo_name):
+    class Decorate:
+        def __init__(self, tip):
+            self.tip = tip
+
+        def __call__(self, func):
+            def wrapper(*args, **kwargs):
+                print(self.tip)
+                return func(*args, **kwargs)
+            return wrapper
+
+    @Decorate("Something")
+    def test(item):
+        print(demo_name, "test", item)
+
+    test("Hello")
+
+
 if __name__ == '__main__':
     demo1("demo1")
     print()
@@ -64,4 +98,12 @@ if __name__ == '__main__':
 
     # 装饰器传参
     demo3("demo3")
+    print()
+
+    # 类装饰器
+    demo4("demo4")
+    print()
+
+    # 类装饰器
+    demo5("demo5")
     print()
