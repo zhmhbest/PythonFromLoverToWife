@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/PythonFromLovertoWife.iml" filepath="$PROJECT_DIR$/.idea/PythonFromLovertoWife.iml" />
-      <module fileurl="file://$PROJECT_DIR$/01_Introduction/!Introduction.iml" filepath="$PROJECT_DIR$/01_Introduction/!Introduction.iml" />
       <module fileurl="file://$PROJECT_DIR$/02_Advanced/!Advanced.iml" filepath="$PROJECT_DIR$/02_Advanced/!Advanced.iml" />
       <module fileurl="file://$PROJECT_DIR$/03_Algorithm/!Algorithm.iml" filepath="$PROJECT_DIR$/03_Algorithm/!Algorithm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01_Introduction/!Introduction.iml" filepath="$PROJECT_DIR$/01_Introduction/!Introduction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PythonFromLovertoWife.iml" filepath="$PROJECT_DIR$/.idea/PythonFromLovertoWife.iml" />
     </modules>
   </component>
 </project>
