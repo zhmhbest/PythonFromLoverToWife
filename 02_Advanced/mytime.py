@@ -22,6 +22,23 @@ class DateTimeHelper:
         return time.time()
 
     @staticmethod
+    def get_datetime_from_string(sdt):
+        """
+        从字符串创建一个datetime对象
+        :param {string} sdt:
+        """
+        return datetime.datetime.strptime(sdt, "%Y-%m-%d %H:%M:%S")
+
+    @staticmethod
+    def get_date_from_string(sda):
+        """
+        从字符串创建一个date对象
+        :param {string} sda:
+        """
+        s = sda.split('-')
+        return datetime.date(int(s[0]), int(s[1]), int(s[2]))
+
+    @staticmethod
     def to_string(dt):
         """
         将datetime对象转化为字符串
@@ -56,14 +73,6 @@ class DateTimeHelper:
         return diff.days
 
     @staticmethod
-    def get_datetime_from_string(sdt):
-        """
-        从字符串创建一个datetime对象
-        :param {string} sdt:
-        """
-        return datetime.datetime.strptime(sdt, "%Y-%m-%d %H:%M:%S")
-
-    @staticmethod
     def after_current_datetime(**kwargs):
         """
         当前时间±一段时间后的日期
@@ -77,3 +86,20 @@ class DateTimeHelper:
         :return:
         """
         return datetime.datetime.now() + datetime.timedelta(**kwargs)
+
+    @staticmethod
+    def get_age(birth):
+        """
+        获取年龄
+        :param birth: 出生日期
+        :return: 天数
+        """
+        if isinstance(birth, str):
+            birth = DateTimeHelper.get_date_from_string(birth)
+
+        if isinstance(birth, datetime.date):
+            today = datetime.date.today()
+            diff = today - birth
+            return diff.days
+        else:
+            return -1
