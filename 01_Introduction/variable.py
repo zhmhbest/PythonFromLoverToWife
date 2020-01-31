@@ -54,3 +54,9 @@ string8 = b"ABC"
 print(type(string7), string7)
 print(type(string8), string8)
 
+
+print("【判断变量类型】")
+print(isinstance(number1, int))
+print(isinstance(number2, float))
+print(isinstance(string1, str))
+print(isinstance(string7, bytes))
