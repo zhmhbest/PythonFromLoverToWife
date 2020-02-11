@@ -59,6 +59,11 @@
 - 匿名函数
 - 匿名类
 
+## [nest](nest.py)
+
+- 函数嵌套
+- 闭包
+
 ## [regularization](regularization.py)
 
 - 正则表达式
