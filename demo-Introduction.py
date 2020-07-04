@@ -74,6 +74,12 @@ print("float?", isinstance(var_float1, float))
 print("str  ?", isinstance(var_string1, str))
 print("bytes?", isinstance(var_bytes1, bytes))
 
+print("■■■■■■■■■■■■■■■■【格式化输出】■■■■■■■■■■■■■■■■")
+var_format1='abc'
+var_format2=123
+print("str=%s, num=%d" % (var_format1, var_format2))
+print(f"str={var_format1}, num={var_format2}")
+
 print("■■■■■■■■■■■■■■■■【条件语句】■■■■■■■■■■■■■■■■")
 button = True
 if button:
