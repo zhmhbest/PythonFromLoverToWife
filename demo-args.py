@@ -10,21 +10,14 @@
 
 
 def test_args(first, *args):
-    print("第一个必填参数的值：", first)
-    print(type(args))
-    for arg in args:
-        print("其余可选参数的值：", arg)
+    print("[必填参数] first =", first)
+    print("[位置可选] args =", type(args), args)
 
 
 def test_kwargs(first, *args, **kwargs):
-    print("第一个必填参数的值：", first)
-
-    print(type(kwargs))
-    for arg in args:
-        print("其余可选参数的值: ", arg)
-
-    for k, v in kwargs.items():
-        print("可选且指定了名称的参数：%s=%s" % (k, v))
+    print("[必填参数] first =", first)
+    print("[位置可选] args =", type(args), args)
+    print("[实名可选] kwargs =", type(kwargs), kwargs)
 
 
 if __name__ == '__main__':
