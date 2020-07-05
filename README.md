@@ -18,3 +18,5 @@
 - [正则表达式](demo-regularization.py)
 - [序列](demo-sequence.py)
 - [多线程](demo-thread.py)
+- [通用爬虫](demo-requests.py)
+- [XPATH](demo-xpath.py)
