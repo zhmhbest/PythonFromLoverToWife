@@ -41,7 +41,7 @@ def calculate_matrix(text: str) -> None:
     try:
         A = sympy.Matrix(buffer_array)
     except Exception as e:
-        print(e)
+        # print(e)
         print("矩阵表达式错误")
         return
 
@@ -78,12 +78,12 @@ def calculate_matrix(text: str) -> None:
     # 展示
     print(f"""
 {show_split_double}
-矩阵：
+矩阵：A =
     {show_matrix}
     {show_split_single}
-    形状\t\t：{A.shape[0]} × {A.shape[1]}
-    行列式\t\t：det = {show_determinant}
-    特征多项式\t：pol = {show_polynomial}
+    形状\t\t：{'n' if A.shape[0] == A.shape[1] else 'm'}×n = {A.shape[0]}×{A.shape[1]}
+    行列式\t\t：|A| = {show_determinant}
+    特征多项式\t：|λE - A| = {show_polynomial}
     特征向量\t\t：Aξ = λξ
         {show_vector}
     最简行阶梯\t：
