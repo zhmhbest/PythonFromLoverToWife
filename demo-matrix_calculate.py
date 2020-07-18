@@ -1,5 +1,6 @@
 """
     线性代数，矩阵计算
+    pip install pyperclip
 """
 
 
@@ -78,16 +79,13 @@ def calculate_matrix(text: str) -> None:
     # 展示
     print(f"""
 {show_split_double}
-矩阵：A =
-    {show_matrix}
+矩阵：A = \n\t{show_matrix}
     {show_split_single}
-    形状\t\t：{'n' if A.shape[0] == A.shape[1] else 'm'}×n = {A.shape[0]}×{A.shape[1]}
-    行列式\t\t：|A| = {show_determinant}
-    特征多项式\t：|λE - A| = {show_polynomial}
-    特征向量\t\t：Aξ = λξ
-        {show_vector}
-    最简行阶梯\t：
-        {show_simplest}
+    形状      \t：{'n' if A.shape[0] == A.shape[1] else 'm'}×n = {A.shape[0]}×{A.shape[1]}
+    行列式    \t：|A| = {show_determinant}
+    特征多项式 \t：|λE - A| = {show_polynomial}
+    特征向量   \t：Aξ = λξ \n\t\t{show_vector}
+    最简行阶梯\t：\n\t\t{show_simplest}
     """.strip())
 
 
