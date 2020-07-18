@@ -20,3 +20,4 @@
 - [多线程](demo-thread.py)
 - [通用爬虫](demo-requests.py)
 - [XPATH](demo-xpath.py)
+- [Clipboard](demo-clipboard.py)
