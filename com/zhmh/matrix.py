@@ -2,6 +2,7 @@
     https://www.bilibili.com/read/cv6445679/
 """
 import sympy
+from sympy.abc import lamda
 # import numpy as np
 import re
 CONSTANT_SUP_NUMBER = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
@@ -63,11 +64,13 @@ def get_nn_matrix_information(_m: sympy.Matrix):
         'pol': ' · '.join(
             [f'(λ - ({k})){CONSTANT_SUP_NUMBER[e]}' for k, e in _m.eigenvals().items()]
         ),
-        'vec': [f'λ = {v[0]}, ξ = {str([i[0] for i in v[2][0].tolist()])}ᵀ' for v in _m.eigenvects()]
+        'vec': [f'λ = {v[0]}, ξ = {str([i[0] for i in v[2][0].tolist()])}ᵀ' for v in _m.eigenvects()],
+        'jordan': _m.jordan_form()[1]
     }
 
 
 def print_matrix_information(_m: sympy.Matrix):
+    from sympy import oo
     constant_split_double = '=' * 32
     constant_split_single = '-' * 16
     if _m is None:
@@ -84,8 +87,11 @@ def print_matrix_information(_m: sympy.Matrix):
     print(constant_split_double)
     print(f"矩阵：A = {str_one_matrix(_m, 1)}")
     print(f"    {constant_split_single}")
-    print(f"    形状: {'n' if show_n_row == show_n_col else 'm'}×n = {show_n_row}×{show_n_col}")
-    print(f"    最简: {str_one_matrix(show_simplest)}")
+    print(f"    形状    \t: {'n' if show_n_row == show_n_col else 'm'}×n = {show_n_row}×{show_n_col}")
+    print(f"    秩      \t: {_m.rank()}")
+    print(f"    列(1)范数\t: {_m.norm(1)}")
+    print(f"    行(∞)范数\t: {_m.norm(oo)}")
+    print(f"    最简     \t: {str_one_matrix(show_simplest)}")
     if show_n_row == show_n_col:
         print(f"    {constant_split_single}")
         show_nn = get_nn_matrix_information(_m)
@@ -93,42 +99,36 @@ def print_matrix_information(_m: sympy.Matrix):
         print(f"    特征多项式\t：|λE - A| = {show_nn['pol']}")
         print(f"    特征向量  \t：Aξ = λξ{packing_list(show_nn['vec'], 2)}")
         print(f"    逆矩阵    \t：{str_one_matrix(show_nn['inv'])}")
+        print(f"    Jordan   \t：{str_one_matrix(show_nn['jordan'])}")
 
 
-def calculate_matrix():
-    pass
-    # else:
-    #     # 矩阵乘法计算
-    #     try:
-    #         buffer = []
-    #         for _t in _ts:
-    #             _t = _t.strip()
-    #             if _t.find(' ') > -1:
-    #                 _m = get_arr_matrix(_t)
-    #                 _sm = get_one_matrix(_m)
-    #                 if _sm is None:
-    #                     return
-    #                 buffer.append(_sm)
-    #             else:
-    #                 buffer.append(_t)
-    #
-    #         # 开始计算
-    #         result = 1
-    #         print()
-    #         print(consent_split_double)
-    #
-    #         for _a in buffer:
-    #             if 1 != result:
-    #                 print('×')
-    #
-    #             if isinstance(_a, str):
-    #                 print(f'\t{_a}')
-    #                 result = result * float(_a)
-    #             else:
-    #                 print(str_one_matrix(_a, 1, 0))
-    #                 result = result * sympy.eye()
-    #
-    #         print('=')
-    #         print(str_one_matrix(result, 1, 0))
-    #     except NameError as e:
-    #         print("矩阵不对称", e)
+def calculate_multiply_matrix(terms):
+    """
+    计算多个矩阵相乘
+    :param terms:
+    :return:
+    """
+    constant_split_double = '=' * 32
+    constant_split_single = '-' * 16
+    try:
+        buffer = []
+        for term in terms:
+            term = term.strip()
+            _a, _m = get_one_matrix(term)
+            # if term.find(' ') > -1:
+            buffer.append(_m)
+
+        # 开始计算
+        result = 1
+        print()
+        print(constant_split_double)
+
+        for _m in buffer:
+            if 1 != result:
+                print('×')
+            print(str_one_matrix(_m, 1, 0))
+            result = result * _m
+        print('=')
+        print(str_one_matrix(result, 1, 0))
+    except Exception as e:
+        print("计算时发生异常(calculate_multiply_matrix)", e)

@@ -3,7 +3,7 @@
     pip install pyperclip
 """
 from com.zhmh.matrix import get_one_matrix
-from com.zhmh.matrix import print_matrix_information
+from com.zhmh.matrix import print_matrix_information, calculate_multiply_matrix
 
 
 def listen_clipboard(callback, speed=0.5):
@@ -30,6 +30,8 @@ def do_calculate(text):
     if 1 == len(terms):
         # 一个矩阵打印信息
         print_matrix_information(get_one_matrix(terms[0])[1])
+    else:
+        calculate_multiply_matrix(terms)
 
 
 if __name__ == '__main__':
