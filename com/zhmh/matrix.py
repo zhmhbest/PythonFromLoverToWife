@@ -2,7 +2,8 @@
     https://www.bilibili.com/read/cv6445679/
 """
 import sympy
-from sympy.abc import lamda
+# sympy.Rational
+# from sympy.abc import lamda
 # import numpy as np
 import re
 CONSTANT_SUP_NUMBER = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
@@ -58,6 +59,7 @@ def get_nn_matrix_information(_m: sympy.Matrix):
     获得n×n的矩阵信息
     :return:
     """
+    show_jordan = _m.jordan_form()[1]
     return {
         'det': _m.det(),
         'inv': _m.inv(),
@@ -65,7 +67,7 @@ def get_nn_matrix_information(_m: sympy.Matrix):
             [f'(λ - ({k})){CONSTANT_SUP_NUMBER[e]}' for k, e in _m.eigenvals().items()]
         ),
         'vec': [f'λ = {v[0]}, ξ = {str([i[0] for i in v[2][0].tolist()])}ᵀ' for v in _m.eigenvects()],
-        'jordan': _m.jordan_form()[1]
+        'jordan': show_jordan
     }
 
 
@@ -114,9 +116,15 @@ def calculate_multiply_matrix(terms):
         buffer = []
         for term in terms:
             term = term.strip()
-            _a, _m = get_one_matrix(term)
-            # if term.find(' ') > -1:
-            buffer.append(_m)
+            if term.find(' ') > -1:
+                _a, _m = get_one_matrix(term)
+                buffer.append(_m)
+            else:
+                _fraction = term.split('/')
+                if 2 == len(_fraction):
+                    buffer.append(sympy.Rational(_fraction[0], _fraction[1]))
+                else:
+                    buffer.append(int(_fraction[0]))
 
         # 开始计算
         result = 1
@@ -126,7 +134,10 @@ def calculate_multiply_matrix(terms):
         for _m in buffer:
             if 1 != result:
                 print('×')
-            print(str_one_matrix(_m, 1, 0))
+            if isinstance(_m, sympy.MutableDenseMatrix):
+                print(str_one_matrix(_m, 1, 0))
+            else:
+                print(f'\t{_m}')
             result = result * _m
         print('=')
         print(str_one_matrix(result, 1, 0))
