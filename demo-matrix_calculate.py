@@ -3,6 +3,8 @@
     pip install pyperclip
 """
 import sympy
+consent_split_double = '=' * 32
+consent_split_single = '-' * 16
 
 
 def listen_clipboard(callback, speed=0.5):
@@ -29,8 +31,8 @@ def get_arr_matrix(text: str):
     """
     import re
     _rs = re.split(
-        re.compile('[ \t]*\\n\\s*'),            # 去除空行、空白行
-        re.sub('[ \t\r]+', ' ', text.strip())   # 连续空格
+        re.compile('[ \\t]*[\\n\\r]\\s*'),      # 去除空行、空白行
+        re.sub('[ \\t]+', ' ', text.strip())    # 连续空格
     )
     return [(_r.split(' ')) for _r in _rs]
 
@@ -39,14 +41,11 @@ def get_one_matrix(_m: [list]):
     """
     从数组生成一个矩阵对象
     """
-    from sympy import SympifyError
+    # from sympy import SympifyError
     try:
         _A = sympy.Matrix(_m)
-    except SyntaxError as e:
-        print("矩阵表达式错误（生成）")
-        return None
-    except SympifyError as e:
-        print("矩阵表达式错误（生成）")
+    except Exception as e:
+        print("矩阵表达式错误（生成）", _m)
         return None
     return _A
 
@@ -67,8 +66,6 @@ def print_matrix_message(_m: [list]) -> None:
     # 常量
     consent_sup = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
     consent_sub = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉']
-    consent_split_double = '=' * 32
-    consent_split_single = '-' * 16
 
     _A = get_one_matrix(_m)
     if _A is None:
@@ -124,7 +121,7 @@ def calculate_matrix(text: str) -> None:
             buffer_sm = []
             for _t in _ts:
                 _m = get_arr_matrix(_t)
-                print(_m)
+                # print(_m)
                 _sm = get_one_matrix(_m)
                 if _sm is None:
                     return
@@ -132,6 +129,7 @@ def calculate_matrix(text: str) -> None:
             # 开始计算
             result = 1
             print()
+            print(consent_split_double)
             for _a in buffer_sm:
                 if 1 != result:
                     print('×')
