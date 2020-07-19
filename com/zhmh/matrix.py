@@ -1,9 +1,10 @@
 """
     https://www.bilibili.com/read/cv6445679/
+    https://zhuanlan.zhihu.com/p/111573239
 """
 import sympy
-# sympy.Rational
-# from sympy.abc import lamda
+# Rational 分数
+# abc 引入符号
 # import numpy as np
 import re
 CONSTANT_SUP_NUMBER = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹']
@@ -91,6 +92,7 @@ def print_matrix_information(_m: sympy.Matrix):
     print(f"    {constant_split_single}")
     print(f"    形状    \t: {'n' if show_n_row == show_n_col else 'm'}×n = {show_n_row}×{show_n_col}")
     print(f"    秩      \t: {_m.rank()}")
+    print(f"    迹      \t: {_m.trace()}")
     print(f"    列(1)范数\t: {_m.norm(1)}")
     print(f"    行(∞)范数\t: {_m.norm(oo)}")
     print(f"    最简     \t: {str_one_matrix(show_simplest)}")
