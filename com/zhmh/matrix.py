@@ -64,7 +64,7 @@ def get_nn_matrix_information(_m: sympy.Matrix):
     return {
         'det': _m.det(),
         'trace': _m.trace(),
-        'inv': _m.inv(),
+        'inv': _m.pinv(), #_m.inv()
         'pol': ' · '.join(
             [f'(λ - ({k})){CONSTANT_SUP_NUMBER[e]}' for k, e in _m.eigenvals().items()]
         ),
