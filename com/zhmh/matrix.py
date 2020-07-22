@@ -63,6 +63,7 @@ def get_nn_matrix_information(_m: sympy.Matrix):
     show_jordan = _m.jordan_form()[1]
     return {
         'det': _m.det(),
+        'trace': _m.trace(),
         'inv': _m.inv(),
         'pol': ' · '.join(
             [f'(λ - ({k})){CONSTANT_SUP_NUMBER[e]}' for k, e in _m.eigenvals().items()]
@@ -92,13 +93,13 @@ def print_matrix_information(_m: sympy.Matrix):
     print(f"    {constant_split_single}")
     print(f"    形状    \t: {'n' if show_n_row == show_n_col else 'm'}×n = {show_n_row}×{show_n_col}")
     print(f"    秩      \t: {_m.rank()}")
-    print(f"    迹      \t: {_m.trace()}")
     print(f"    列(1)范数\t: {_m.norm(1)}")
     print(f"    行(∞)范数\t: {_m.norm(oo)}")
     print(f"    最简     \t: {str_one_matrix(show_simplest)}")
     if show_n_row == show_n_col:
         print(f"    {constant_split_single}")
         show_nn = get_nn_matrix_information(_m)
+        print(f"    迹       \t：{show_nn['trace']}")
         print(f"    行列式    \t：|A| = {show_nn['det']}")
         print(f"    特征多项式\t：|λE - A| = {show_nn['pol']}")
         print(f"    特征向量  \t：Aξ = λξ{packing_list(show_nn['vec'], 2)}")
