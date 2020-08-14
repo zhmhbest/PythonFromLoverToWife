@@ -1,87 +1,140 @@
 import re
 import os
-from pdfminer.pdfparser import PDFParser
-from pdfminer.pdfdocument import PDFDocument
-from pdfminer.pdfpage import PDFPage
-from pdfminer.pdfpage import PDFTextExtractionNotAllowed
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import PDFPageAggregator
-from pdfminer.layout import LAParams, LTTextBox
 
 
-def open_pdf(pdf_path):
-    fp = open(pdf_path, 'rb')
-    parser = PDFParser(fp)
-    doc = PDFDocument(parser, password=b'')
-    if not doc.is_extractable:
+def read_pdf_text_content(pdf_path: str):
+    """
+    ReadPdf
+    :param pdf_path:
+    :return:
+    """
+    from pdfminer.pdfparser import PDFParser
+    from pdfminer.pdfdocument import PDFDocument
+    from pdfminer.pdfpage import PDFTextExtractionNotAllowed
+    from pdfminer.pdfdocument import PDFNoOutlines
+    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+    from pdfminer.layout import LAParams, LTTextBox
+    from pdfminer.converter import PDFPageAggregator
+    from pdfminer.pdfpage import PDFPage
+
+    assert os.path.exists(pdf_path)
+    pdf_fp = open(pdf_path, 'rb')
+    pdf_parser = PDFParser(pdf_fp)
+    pdf_doc = PDFDocument(pdf_parser, password=b'')
+    # 导航
+    try:
+        pdf_guide = [_guide[1] for _guide in pdf_doc.get_outlines()]
+    except PDFNoOutlines:
+        pdf_guide = []
+    # 相关信息（作者等）
+    pdf_info = pdf_doc.info
+    if not pdf_doc.is_extractable:
+        # 检查文档是否可以转成TXT
         raise PDFTextExtractionNotAllowed
-    parser.set_document(doc)
-    resmgr = PDFResourceManager()
-    lap = LAParams()
-    device = PDFPageAggregator(resmgr, laparams=lap)
-    interpreter = PDFPageInterpreter(resmgr, device)
-    for page in PDFPage.create_pages(doc):
-        interpreter.process_page(page)
-        layout = device.get_result()
-        for x in layout:
-            if isinstance(x, LTTextBox):
-                yield x.get_text().strip()
+    pdf_res_mgr = PDFResourceManager()
+    pdf_lap_params = LAParams()
+    pdf_device = PDFPageAggregator(rsrcmgr=pdf_res_mgr, laparams=pdf_lap_params)
+    pdf_interpreter = PDFPageInterpreter(pdf_res_mgr, pdf_device)
+    pdf_pages = PDFPage.create_pages(pdf_doc)
+    # 文档信息
+    doc_info = {
+        'guide': pdf_guide,
+        'info': pdf_info,
+        'no': -1
+    }
+    for page in pdf_pages:
+        pdf_interpreter.process_page(page)
+        layout = pdf_device.get_result()
+        for block in layout:
+            if isinstance(block, LTTextBox):
+                # 更新页数
+                doc_info['no'] = pdf_device.pageno - 1
+                yield {
+                    'doc': doc_info,
+                    'rect': (block.x0, block.y0, block.x1, block.y1),
+                    'text': block.get_text()
+                }
 
 
-def convert_pdf(read_path, save_path=None):
+def convert_pdf_markdown(read_path, save_path=None):
     assert os.path.exists(read_path)
     if save_path is None:
         (filepath, filename) = os.path.split(read_path)
         (name, extension) = os.path.splitext(filename)
         save_path = os.path.abspath(f"{filepath}/{name}.md")
-    with open(save_path, 'w', encoding='utf-8') as fp:
-        for p in open_pdf(read_path):
-            if len(p) > 5:
-                p = re.sub(r"-\n", '', p)
-                p = re.sub(r"\n", ' ', p).strip()
-                if re.findall(r'Peer-to-Peer Netw. Appl.', p):
-                    continue
-                p_head = p.split(' ', 1)[0]
-                p_head_word = (lambda __s: '' if __s is None else __s.group().upper())(re.match(r'^\w+(?=(\W|$))', p))
-                # print(p_head_word)
 
-                if not re.findall(r'\(\d\d\d\d\)', p) and not re.findall(r'http://', p):
-                    # 摘要
-                    if 'ABSTRACT' == p_head_word:
-                        fp.write("## Abstract\n\n")
-                        p = re.sub(r'^\w+\W+', '', p)
-                    if (
-                        re.match(r'\d(?![%)\d])', p_head) or
-                        re.match(r'(I+|V|IV|VI)[.]', p_head) or
-                        'REFERENCES' == p_head_word
-                    ):
-                        fp.write("## ")
-                    elif (
-                            re.match(r'\d[.]\d+(?![.)])', p_head)
-                    ):
-                        fp.write("### ")
-                fp.write(p)
-                fp.write('\n\n')
+    def add_line(content):
+        nonlocal fp
+        fp.write(content)
+        fp.write('\n\n')
 
+    fp = open(save_path, 'w', encoding='utf-8')
+    dump_guides = None
+    is_headline = False
+    # ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■
+    for paragraph in read_pdf_text_content(read_path):
+        # 初始参数
+        is_headline = False
+        # 整理段落
+        text = paragraph['text'].strip()
+        text = text.replace('-\n', '')
+        text = text.replace('\n', ' ')
+        text = re.sub(r'(?<!^)\[\d+\]', lambda _t: f'^{_t.group()}^', text)
+        if len(text) < 6:
+            continue
+        # 检查导航
+        if dump_guides is None:
+            dump_guides = []
+            for guide in paragraph['doc']['guide']:
+                guide = guide.split(' ', 1)
+                guide = guide[1] if guide.__len__() > 1 else guide[0]
+                # print(guide)
+                dump_guides.append(guide.strip().upper())
+            if 0 == len(dump_guides):
+                dump_guides = None
+        if dump_guides:
+            if len(text) < 50:
+                for guide in dump_guides:
+                    tmp = text.split(' ', 1)
+                    tmp = (tmp[1] if tmp.__len__() > 1 else tmp[0]).upper().strip()
+                    check_length = min(guide.__len__(), tmp.__len__())
+                    if guide[:check_length] == tmp[:check_length]:
+                        fp.write('## ')
+                        is_headline = True
+                        break
+        else:
+            # 提取段落信息
+            if not is_headline:
+                features = text.split(' ', 2)
+                feature_first = features[0]
+                feature_second = features[1] if features.__len__() > 1 else ''
+                feature_first_word = (lambda __s: '' if __s is None else __s.group().upper())(
+                    re.match(r'^\w+(?=(\W|$))', feature_first)
+                )
+                # print(f"({feature_first})[{feature_second}][{feature_first_word}]")
+                # 摘要
+                if 'ABSTRACT' == feature_first_word:
+                    fp.write("## Abstract\n\n")
+                    text = re.sub(r'^\w+\W+', '', text)
+                # 标题识别
+                if re.match(r'\d\.\d\.\d', feature_first):
+                    fp.write("#### ")
+                elif re.match(r'\d\.\d', feature_first):
+                    fp.write("### ")
+                elif (
+                        re.match(r'\d(?![.%)\d\w])', feature_first) or
+                        re.match(r'(I+|V|IV|VI)[.]', feature_first) or
+                        'REFERENCES' == feature_first_word or
+                        'INTRODUCTION' == feature_first_word
+                ):
 
-def convert_pdf_text(read_path, save_path=None):
-    assert os.path.exists(read_path)
-    if save_path is None:
-        (filepath, filename) = os.path.split(read_path)
-        (name, extension) = os.path.splitext(filename)
-        save_path = os.path.abspath(f"{filepath}/{name}.md")
-    with open(read_path, 'r', encoding='utf-8') as fp:
-        text = fp.read()
-    with open(save_path, 'w', encoding='utf-8') as fp:
-        paragraphs = re.split(r"(\s*\n){2,}", text)
-        for p in paragraphs:
-            p = re.sub(r"-\n", (lambda item: ''), p)
-            p = re.sub(r"\n", (lambda item: ' '), p).strip()
-            fp.write(p)
-            fp.write('\n')
+                    fp.write("## ")
+        # 添加
+        add_line(text)
+    # ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■
+    fp.close()
 
 
 if __name__ == '__main__':
-    file_path = "E:\\Userprofile\Documents\\态势感知\\基金项目的核心文件\\DL-ML算法部分"
-    # convert_pdf(r"E:\Userprofile\Documents\态势感知\基金项目的核心文件\DL-ML算法部分\2018SurveyOnSDNBasedNetworkIntrusi.pdf")
-    convert_pdf(f"{file_path}\\The Challenges in SDN ML Based Network.pdf")
+    file_path = r"E:\\UserProfile\Documents\\态势感知\\基金项目的核心文件\\核心文件"
+    convert_pdf_markdown(f"{file_path}\\NDN_over_SDN_NFV.pdf")
