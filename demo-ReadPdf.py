@@ -36,16 +36,29 @@ def convert_pdf(read_path, save_path=None):
         save_path = os.path.abspath(f"{filepath}/{name}.md")
     with open(save_path, 'w', encoding='utf-8') as fp:
         for p in open_pdf(read_path):
-            if len(p) > 10:
-                p = re.sub(r"-\n", (lambda item: ''), p)
-                p = re.sub(r"\n", (lambda item: ' '), p).strip()
+            if len(p) > 5:
+                p = re.sub(r"-\n", '', p)
+                p = re.sub(r"\n", ' ', p).strip()
                 if re.findall(r'Peer-to-Peer Netw. Appl.', p):
                     continue
                 p_head = p.split(' ', 1)[0]
+                p_head_word = (lambda __s: '' if __s is None else __s.group().upper())(re.match(r'^\w+(?=(\W|$))', p))
+                # print(p_head_word)
+
                 if not re.findall(r'\(\d\d\d\d\)', p) and not re.findall(r'http://', p):
-                    if re.match(r'\d(?![.)])', p_head):
+                    # 摘要
+                    if 'ABSTRACT' == p_head_word:
+                        fp.write("## Abstract\n\n")
+                        p = re.sub(r'^\w+\W+', '', p)
+                    if (
+                        re.match(r'\d(?![%)\d])', p_head) or
+                        re.match(r'(I+|V|IV|VI)[.]', p_head) or
+                        'REFERENCES' == p_head_word
+                    ):
                         fp.write("## ")
-                    elif re.match(r'\d\.\d+(?![.)])', p_head):
+                    elif (
+                            re.match(r'\d[.]\d+(?![.)])', p_head)
+                    ):
                         fp.write("### ")
                 fp.write(p)
                 fp.write('\n\n')
@@ -69,4 +82,6 @@ def convert_pdf_text(read_path, save_path=None):
 
 
 if __name__ == '__main__':
-    convert_pdf(r"E:\Userprofile\Documents\态势感知\基金项目的核心文件\DL-ML算法部分\2018SurveyOnSDNBasedNetworkIntrusi.pdf")
+    file_path = "E:\\Userprofile\Documents\\态势感知\\基金项目的核心文件\\DL-ML算法部分"
+    # convert_pdf(r"E:\Userprofile\Documents\态势感知\基金项目的核心文件\DL-ML算法部分\2018SurveyOnSDNBasedNetworkIntrusi.pdf")
+    convert_pdf(f"{file_path}\\The Challenges in SDN ML Based Network.pdf")
