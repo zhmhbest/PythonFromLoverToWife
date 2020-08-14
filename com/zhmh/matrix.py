@@ -60,9 +60,10 @@ def get_nn_matrix_information(_m: sympy.Matrix):
     获得n×n的矩阵信息
     :return:
     """
+    show_det = _m.det()
     show_jordan = _m.jordan_form()[1]
     return {
-        'det': _m.det(),
+        'det': show_det,
         'trace': _m.trace(),
         'inv': _m.pinv(), #_m.inv()
         'pol': ' · '.join(
