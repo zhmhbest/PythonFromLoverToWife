@@ -21,3 +21,13 @@
 - [通用爬虫](demo-requests.py)
 - [XPATH](demo-xpath.py)
 - [Clipboard](demo-clipboard.py)
+- [ReadPdf](demo-read_pdf.py)
+- [MatrixCalculate](demo-matrix_calculate.py)
+
+## 配置虚拟环境
+
+```bash
+pip install virtualenv
+pip install virtualenvwrapper
+virtualenv ${envname}
+```
