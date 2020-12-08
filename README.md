@@ -31,8 +31,13 @@
 #### 镜像
 
 ```bash
+# Tsinghua
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-pip config set install.trusted-host https://pypi.tuna.tsinghua.edu.cn
+pip config set install.trusted-host pypi.tuna.tsinghua.edu.cn
+
+# Aliyun
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+pip config set install.trusted-host mirrors.aliyun.com
 ```
 
 #### 安装
@@ -123,4 +128,24 @@ conda create -n <envname> --clone <EXISTED_ENV>
 
 # 删除环境
 conda remove -n <envname> --all
+```
+
+## 安装依赖
+
+```bash
+# 生成requirements（全部依赖）
+pip freeze>requirements.txt
+
+# 生成requirements（使用的主要依赖）
+# pip install pipreqs
+pipreqs . --encoding=utf8 --force
+
+# 在线安装依赖
+pip install -r requirements.txt [-i <SimpleURL>] [-f <HTML文件/本地目录>]
+
+# 下载依赖
+pip download -r requirements.txt -d packages
+
+# 离线安装依赖
+pip install -r requirements.txt --no-index -f packages
 ```
