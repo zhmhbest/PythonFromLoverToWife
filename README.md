@@ -1,7 +1,5 @@
 # PythonFromLoverToWife
 
-## 使用
-
 - [Hello](demo-base.py)
 - [字符串处理](demo-string.py)
 - [字符串逆序](demo-str_reverse.py)
@@ -28,8 +26,101 @@
 
 ## 配置虚拟环境
 
+### pip
+
+#### 镜像
+
 ```bash
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip config set install.trusted-host https://pypi.tuna.tsinghua.edu.cn
+```
+
+#### 安装
+
+```batch
+REM Windows
+pip install virtualenv
+pip install virtualenvwrapper-win
+```
+
+```bash
+# Linux
 pip install virtualenv
 pip install virtualenvwrapper
-virtualenv ${envname}
+```
+
+#### 使用
+
+```bash
+# 环境命令
+activate
+deactivate
+
+# 系统命令
+# virtualenv envname
+# mkvirtualenv -p python3.6.8 envname
+workon envname
+lsvirtualenv
+cdvirtualenv envname
+rmvirtualenv envname
+
+# 创建项目环境
+# SET WORKON_HOME=%CD%
+export WORKON_HOME=$(pwd)
+mkvirtualenv venv
+```
+
+### conda
+
+#### 镜像
+
+```bash
+# notepad %UserProfile%\.condarc
+# vim ~/.condarc
+conda config --set channel_alias "http://mirrors.tuna.tsinghua.edu.cn/anaconda"
+conda config --add channels defaults
+conda config --add default_channels "http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/"
+conda config --add default_channels "http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro/"
+conda config --add default_channels "http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/"
+conda config --add default_channels "http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/"
+conda config --add default_channels "http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/"
+conda config --set ssl_verify no
+conda config --set show_channel_urls yes
+conda clean -i
+```
+
+#### 使用
+
+```bash
+# 选择默认Shell
+# conda init cmd.exe
+# conda init bash
+
+# 创建环境
+# conda create -n python36 python=3.6.8
+conda create -n <envname> python=<PYTHON_VERSION>
+
+# 查看已创建的环境
+conda env list
+
+# 进入环境
+conda activate <envname>
+
+# 当前环境已安装的包
+conda list
+
+# 退出环境
+conda deactivate
+
+# 增删改
+conda install -n <envname> <package>==<version>
+conda remove -n <envname> <package>
+conda update -n <envname> <package>
+
+# 复制环境
+# conda create -n test --clone python36
+conda create -n <envname> --clone <EXISTED_ENV>
+
+# 删除环境
+conda remove -n <envname> --all
 ```
