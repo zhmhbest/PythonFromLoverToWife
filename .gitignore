@@ -1,3 +1,4 @@
-.idea/
-dump
-test.py
+/.idea/
+/.vscode/
+dump/
+__pycache__/

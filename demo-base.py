@@ -264,3 +264,12 @@ if obj2 is obj3:
 else:
     print('obj2和obj3不是一个东西')
 # end if
+
+print("■■■■■■■■■■■■■■■■【函数】■■■■■■■■■■■■■■■■")
+
+
+def add(a: int, b: int) -> int:
+    return a + b
+
+
+print(add(1, 2))
