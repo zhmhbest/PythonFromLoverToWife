@@ -103,3 +103,11 @@ class DateTimeHelper:
             return diff.days
         else:
             return -1
+
+
+# timestamp
+now_time = datetime.datetime.now()
+now_timestamp = now_time.timestamp()
+print(now_time)
+print(now_timestamp)
+print(datetime.datetime.fromtimestamp(now_timestamp))
